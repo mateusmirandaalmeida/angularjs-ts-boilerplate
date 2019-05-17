@@ -1,8 +1,10 @@
 const path = require('path')
 const autoprefixer = require('autoprefixer')
+const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const ROOT_PATH = path.resolve(__dirname, '../')
 const BUILD_PATH = path.resolve(ROOT_PATH, 'public')
@@ -23,12 +25,40 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js']
     },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: false,
+                parallel: true,
+                exclude: /node_modules/,
+                uglifyOptions: {
+                    compress: false,
+                    ecma: 6,
+                    mangle: false
+                },
+                sourceMap: process.env.NODE_ENV == 'development'
+            })
+        ],
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                default: false,
+                vendors: false
+            }
+        }
+    },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: TEMPLATE_FILE,
             filename: BUILD_PATH.concat('/index.html'),
             alwaysWriteToDisk: true
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            jquery: 'jquery',
+            'window.jQuery': 'jquery'
         }),
         new MiniCssExtractPlugin({
             filename: 'styles.css',
