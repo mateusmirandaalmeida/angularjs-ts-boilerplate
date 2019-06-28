@@ -5,6 +5,7 @@ import { pagesModule } from './pages'
 import ngSanitaze from 'angular-sanitize'
 import uiRouter from '@uirouter/angularjs'
 import angularTranslate from 'angular-translate'
+import './app.module.scss'
 
 export const app: IModule = module('app', [
     ngSanitaze,
