@@ -89,17 +89,13 @@ module.exports = {
                 ],
             },
             {
-                test: /\.ts$/,
-                use: [
-                    'ts-loader',
-                    {
-                        loader: 'tslint-loader',
-                        options: {
-                            configFile: ROOT_PATH.concat('/tslint.json')
-                        }
+                test: /\.tsx?$/,
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true
                     }
-                ],
-                include: APP_PATH
+                }
             },
             {
                 test: /\.html$/,
