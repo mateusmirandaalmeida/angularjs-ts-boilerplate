@@ -11,8 +11,6 @@ import angularTranslate from 'angular-translate'
 import './app.module.scss'
 import mbgComponents from '@mobiage/components'
 
-console.log(angular.lowercase)
-
 export const app: IModule = module('app', [
     ngSanitaze,
     uiRouter,
